@@ -32,10 +32,21 @@ public class App {
                 case "목록" -> actionList();
                 case "삭제" -> actionDelete(rq);
                 case "수정" -> actionModify(rq);
+                case "도움" -> actionHelp();
             }
         }
 
         scanner.close();
+    }
+
+    private void actionHelp() {
+        System.out.println("""
+                = 명령어 목록 =
+                1. 등록
+                2. 목록
+                3. 수정?id={번호}
+                4. 삭제?id={번호}
+                """);
     }
 
     private void actionWrite() {
