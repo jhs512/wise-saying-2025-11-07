@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class App {
     private final Scanner scanner = new Scanner(System.in);
     private int lastId = 0;
-    private List<WiseSaying> wiseSayings = new ArrayList<>();
+    private final List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public void run() {
         System.out.println("== 명언 앱 ==");
@@ -31,6 +31,7 @@ public class App {
                 case "등록" -> actionWrite();
                 case "목록" -> actionList();
                 case "삭제" -> actionDelete(rq);
+                case "수정" -> actionModify(rq);
             }
         }
 
@@ -76,6 +77,32 @@ public class App {
         }
 
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+    }
+
+    private void actionModify(Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+
+        if (id == -1) {
+            System.out.println("id를 (숫자로) 입력해주세요.");
+            return;
+        }
+
+        WiseSaying wiseSaying = findById(id);
+
+        if (wiseSaying != null) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        System.out.printf("명언(기존) : %s\n", wiseSaying.getContent());
+        String content = scanner.nextLine().trim();
+
+        System.out.printf("작가(기존) : %s\n", wiseSaying.getAuthor());
+        String author = scanner.nextLine().trim();
+
+        modify(wiseSaying, content, author);
+
+        System.out.printf("%d번 명언이 수정되었습니다.\n", id);
     }
 
     private WiseSaying write(String content, String author) {
