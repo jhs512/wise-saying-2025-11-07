@@ -3,6 +3,8 @@ package com.back;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+
 
 public class App {
     private final Scanner scanner = new Scanner(System.in);
@@ -19,13 +21,16 @@ public class App {
 
             if (cmd.isBlank()) continue;
 
-            switch (cmd) {
+            Rq rq = new Rq(cmd);
+
+            switch (rq.getActionName()) {
                 case "종료" -> {
                     System.out.println("프로그램이 종료됩니다.");
                     break while1;
                 }
                 case "등록" -> actionWrite();
                 case "목록" -> actionList();
+                case "삭제" -> actionDelete(rq);
             }
         }
 
@@ -55,6 +60,24 @@ public class App {
         }
     }
 
+    private void actionDelete(Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+
+        if (id == -1) {
+            System.out.println("id를 (숫자로) 입력해주세요.");
+            return;
+        }
+
+        boolean deleted = delete(id);
+
+        if (!deleted) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+    }
+
     private WiseSaying write(String content, String author) {
         int id = ++lastId;
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
@@ -66,5 +89,22 @@ public class App {
 
     private List<WiseSaying> findForList() {
         return wiseSayings.reversed();
+    }
+
+    private boolean delete(int id) {
+        int index = findIndexById(id);
+
+        if (index == -1) return false;
+
+        wiseSayings.remove(index);
+
+        return true;
+    }
+
+    private int findIndexById(int id) {
+        return IntStream.range(0, wiseSayings.size())
+                .filter(i -> wiseSayings.get(i).getId() == id)
+                .findFirst()
+                .orElse(-1);
     }
 }
