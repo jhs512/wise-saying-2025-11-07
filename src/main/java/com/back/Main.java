@@ -2,7 +2,9 @@ package com.back;
 
 public class Main {
     public static void main(String[] args) {
-        testRq();
+        //testRq();
+
+        new App().run();
     }
 
     private static void testRq() {
