@@ -89,15 +89,17 @@ public class App {
 
         WiseSaying wiseSaying = findById(id);
 
-        if (wiseSaying != null) {
+        if (wiseSaying == null) {
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
             return;
         }
 
         System.out.printf("명언(기존) : %s\n", wiseSaying.getContent());
+        System.out.print("명언 : ");
         String content = scanner.nextLine().trim();
 
         System.out.printf("작가(기존) : %s\n", wiseSaying.getAuthor());
+        System.out.print("작가 : ");
         String author = scanner.nextLine().trim();
 
         modify(wiseSaying, content, author);
@@ -133,5 +135,17 @@ public class App {
                 .filter(i -> wiseSayings.get(i).getId() == id)
                 .findFirst()
                 .orElse(-1);
+    }
+
+    private WiseSaying findById(int id) {
+        return wiseSayings.stream()
+                .filter(w -> w.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void modify(WiseSaying wiseSaying, String content, String author) {
+        wiseSaying.setContent(content);
+        wiseSaying.setAuthor(author);
     }
 }
