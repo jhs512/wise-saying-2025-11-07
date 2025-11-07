@@ -25,6 +25,7 @@ public class App {
                     break while1;
                 }
                 case "등록" -> actionWrite();
+                case "목록" -> actionList();
             }
         }
 
@@ -43,6 +44,17 @@ public class App {
         System.out.printf("%d번 명언이 등록되었습니다.\n", wiseSaying.getId());
     }
 
+    private void actionList() {
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
+
+        List<WiseSaying> forList = findForList();
+
+        for (WiseSaying wiseSaying : forList) {
+            System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
+        }
+    }
+
     private WiseSaying write(String content, String author) {
         int id = ++lastId;
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
@@ -50,5 +62,9 @@ public class App {
         wiseSayings.add(wiseSaying);
 
         return wiseSaying;
+    }
+
+    private List<WiseSaying> findForList() {
+        return wiseSayings.reversed();
     }
 }
