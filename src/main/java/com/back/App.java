@@ -20,9 +20,22 @@ public class App {
                     System.out.println("프로그램이 종료됩니다.");
                     break while1;
                 }
+                case "등록" -> actionWrite();
             }
         }
 
         scanner.close();
+    }
+
+    private void actionWrite() {
+        System.out.print("명언 : ");
+        String content = scanner.nextLine().trim();
+
+        System.out.println("작가 : ");
+        String author = scanner.nextLine().trim();
+
+        WiseSaying wiseSaying = write(content, author);
+
+        System.out.printf("%d번 명언이 등록되었습니다.\n", wiseSaying.getId());
     }
 }
