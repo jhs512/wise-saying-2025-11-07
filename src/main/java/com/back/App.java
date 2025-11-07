@@ -1,9 +1,13 @@
 package com.back;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     private final Scanner scanner = new Scanner(System.in);
+    private int lastId = 0;
+    private List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public void run() {
         System.out.println("== 명언 앱 ==");
@@ -31,11 +35,20 @@ public class App {
         System.out.print("명언 : ");
         String content = scanner.nextLine().trim();
 
-        System.out.println("작가 : ");
+        System.out.print("작가 : ");
         String author = scanner.nextLine().trim();
 
         WiseSaying wiseSaying = write(content, author);
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", wiseSaying.getId());
+    }
+
+    private WiseSaying write(String content, String author) {
+        int id = ++lastId;
+        WiseSaying wiseSaying = new WiseSaying(id, content, author);
+
+        wiseSayings.add(wiseSaying);
+
+        return wiseSaying;
     }
 }
